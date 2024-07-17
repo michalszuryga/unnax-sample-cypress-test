@@ -25,18 +25,18 @@ describe("Webhooks API", () => {
     cy.get("@webhookId").then((webhookId) => {
       cy.request({
         method: "GET",
-        url:`${apiUrl}3`,
-        //url: `${apiUrl}${webhookId}`,
+        url: `${apiUrl}${webhookId}`,
         headers: {
           "Content-Type": "application/json",
           Authorization: authToken,
         },
       }).then((getResponse) => {
         expect(getResponse.status).to.eq(200);
-        cy.log('GET Response:', getResponse.body.event);
-        expect(getResponse.body).to.have.property("id", 3);//webhookId);
-        expect(getResponse.body.event).to.eq("fitnance_read");
-        //expect(getResponse.body.event).to.include("event_payment_transfer_auto_processed")
+        cy.log("GET Response event:", getResponse.body.event);
+        expect(getResponse.body).to.have.property("id", webhookId);
+        expect(getResponse.body.event).to.include(
+          "event_payment_transfer_auto_processed"
+        );
       });
     });
   });
